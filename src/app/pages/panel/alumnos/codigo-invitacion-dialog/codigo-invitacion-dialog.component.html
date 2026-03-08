@@ -1,0 +1,54 @@
+<h2 mat-dialog-title>Código de invitación</h2>
+<mat-dialog-content>
+  @if (!codigoGenerado) {
+    <form [formGroup]="form" class="dialog-form">
+      <mat-form-field appearance="outline">
+        <mat-label>Sala</mat-label>
+        <mat-select formControlName="salaId">
+          @for (sala of data.salas; track sala.id) {
+            <mat-option [value]="sala.id">{{ sala.nombre }}</mat-option>
+          }
+        </mat-select>
+        @if (form.get('salaId')?.hasError('required')) {
+          <mat-error>Requerido</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Fecha de expiración</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="fechaExpiracion">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        @if (form.get('fechaExpiracion')?.hasError('required')) {
+          <mat-error>Requerido</mat-error>
+        }
+      </mat-form-field>
+    </form>
+  }
+
+  @if (codigoGenerado) {
+    <div class="codigo-container">
+      <p>Código generado:</p>
+      <div class="codigo">{{ codigoGenerado }}</div>
+      <button mat-stroked-button (click)="copiar()">
+        <mat-icon>content_copy</mat-icon> Copiar
+      </button>
+      @if (copiado) {
+        <span class="copiado-msg">¡Copiado!</span>
+      }
+    </div>
+  }
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cerrar</button>
+  @if (!codigoGenerado) {
+    <button mat-raised-button color="primary"
+            (click)="generar()" [disabled]="form.invalid || loading">
+      @if (loading) {
+        <mat-spinner diameter="16"></mat-spinner>
+      } @else {
+        Generar
+      }
+    </button>
+  }
+</mat-dialog-actions>

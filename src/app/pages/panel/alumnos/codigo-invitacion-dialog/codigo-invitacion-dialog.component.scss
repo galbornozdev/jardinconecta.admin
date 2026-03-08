@@ -1,0 +1,6 @@
+.dialog-form { display: flex; flex-direction: column; gap: 8px; min-width: 320px; padding-top: 8px; }
+mat-form-field { width: 100%; }
+.codigo-container { text-align: center; padding: 16px; }
+.codigo { font-size: 24px; font-weight: bold; letter-spacing: 4px; margin: 16px 0; padding: 12px; background: #f5f5f5; border-radius: 8px; }
+.copiado-msg { color: green; margin-left: 8px; font-size: 13px; }
+mat-spinner { display: inline-block; }

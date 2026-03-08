@@ -1,0 +1,27 @@
+.section-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #888;
+  margin: 16px 0 4px;
+  letter-spacing: 0.5px;
+}
+
+.empty-msg {
+  font-size: 13px;
+  color: #aaa;
+  padding: 8px 16px;
+  margin: 0;
+}
+
+mat-list {
+  min-width: 340px;
+}
+
+mat-divider {
+  margin: 8px 0;
+}
+
+mat-spinner {
+  display: inline-block;
+}

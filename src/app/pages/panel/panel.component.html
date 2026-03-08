@@ -1,0 +1,28 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav mode="side" opened class="sidenav">
+    <mat-toolbar color="primary">JardinConecta</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/panel/alumnos" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>people</mat-icon>
+        <span matListItemTitle>Alumnos</span>
+      </a>
+      <a mat-list-item routerLink="/panel/salas" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>class</mat-icon>
+        <span matListItemTitle>Salas</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <span class="spacer"></span>
+      <span class="username">{{ userName }}</span>
+      <button mat-icon-button (click)="logout()" title="Cerrar sesión">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </mat-toolbar>
+    <div class="content">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

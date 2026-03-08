@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>Miembros de {{ data.sala.nombre }}</h2>
+<mat-dialog-content>
+  @if (loading) {
+    <div style="text-align:center; padding: 24px;"><mat-spinner></mat-spinner></div>
+  }
+  @if (!loading) {
+    <mat-list>
+      @for (m of miembros; track m.id) {
+        <mat-list-item>
+          <span matListItemTitle>{{ m.nombre }} {{ m.apellido }}</span>
+          <span matListItemLine>{{ m.email }} — {{ m.rol }}</span>
+          <button mat-icon-button color="warn" matListItemMeta (click)="remover(m)" matTooltip="Remover">
+            <mat-icon>person_remove</mat-icon>
+          </button>
+        </mat-list-item>
+      }
+      @if (miembros.length === 0) {
+        <p style="color: #888; padding: 8px;">Sin miembros</p>
+      }
+    </mat-list>
+  }
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cerrar</button>
+</mat-dialog-actions>

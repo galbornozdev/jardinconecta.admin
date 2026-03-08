@@ -1,0 +1,56 @@
+<h2 mat-dialog-title>{{ data.infante ? 'Editar alumno' : 'Nuevo alumno' }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="form" class="dialog-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="nombre">
+      @if (form.get('nombre')?.hasError('required')) {
+        <mat-error>Requerido</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Apellido</mat-label>
+      <input matInput formControlName="apellido">
+      @if (form.get('apellido')?.hasError('required')) {
+        <mat-error>Requerido</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha de nacimiento</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      @if (form.get('fechaNacimiento')?.hasError('required')) {
+        <mat-error>Requerido</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Documento</mat-label>
+      <input matInput formControlName="documento">
+    </mat-form-field>
+
+    @if (!data.infante) {
+      <mat-form-field appearance="outline">
+        <mat-label>Sala</mat-label>
+        <mat-select formControlName="salaId">
+          @for (sala of data.salas; track sala.id) {
+            <mat-option [value]="sala.id">{{ sala.nombre }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    }
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-raised-button color="primary" (click)="submit()" [disabled]="form.invalid || loading">
+    @if (loading) {
+      <mat-spinner diameter="16"></mat-spinner>
+    } @else {
+      Guardar
+    }
+  </button>
+</mat-dialog-actions>

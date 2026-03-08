@@ -1,0 +1,25 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$admin-primary: mat.define-palette(mat.$deep-purple-palette);
+$admin-accent:  mat.define-palette(mat.$green-palette, A200, A100, A400);
+
+$admin-theme: mat.define-light-theme((
+  color: (
+    primary: $admin-primary,
+    accent:  $admin-accent,
+  ),
+  typography: mat.define-typography-config(
+    $font-family: 'Poppins, "Helvetica Neue", sans-serif',
+  ),
+  density: 0,
+));
+
+@include mat.all-component-themes($admin-theme);
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: 'Poppins', 'Helvetica Neue', sans-serif;
+}

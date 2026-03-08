@@ -1,1 +1,0 @@
-# jardinconecta.admin

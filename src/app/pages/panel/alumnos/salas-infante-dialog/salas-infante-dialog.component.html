@@ -1,0 +1,55 @@
+<h2 mat-dialog-title>Salas — {{ data.infante.nombre }} {{ data.infante.apellido }}</h2>
+
+<mat-dialog-content>
+
+  <p class="section-label">Asignadas</p>
+  <mat-list>
+    @for (sala of salasAsignadas; track sala.id) {
+      <mat-list-item>
+        <span matListItemTitle>{{ sala.nombre }}</span>
+        <button mat-icon-button color="warn" matListItemMeta
+                (click)="desasignar(sala)"
+                [disabled]="loadingId === sala.id"
+                matTooltip="Quitar de sala">
+          @if (loadingId === sala.id) {
+            <mat-spinner diameter="18"></mat-spinner>
+          } @else {
+            <mat-icon>remove_circle_outline</mat-icon>
+          }
+        </button>
+      </mat-list-item>
+    }
+    @if (salasAsignadas.length === 0) {
+      <p class="empty-msg">Sin salas asignadas</p>
+    }
+  </mat-list>
+
+  <mat-divider></mat-divider>
+
+  <p class="section-label">Disponibles</p>
+  <mat-list>
+    @for (sala of salasDisponibles; track sala.id) {
+      <mat-list-item>
+        <span matListItemTitle>{{ sala.nombre }}</span>
+        <button mat-icon-button color="primary" matListItemMeta
+                (click)="asignar(sala)"
+                [disabled]="loadingId === sala.id"
+                matTooltip="Agregar a sala">
+          @if (loadingId === sala.id) {
+            <mat-spinner diameter="18"></mat-spinner>
+          } @else {
+            <mat-icon>add_circle_outline</mat-icon>
+          }
+        </button>
+      </mat-list-item>
+    }
+    @if (salasDisponibles.length === 0) {
+      <p class="empty-msg">El alumno está en todas las salas</p>
+    }
+  </mat-list>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cerrar</button>
+</mat-dialog-actions>

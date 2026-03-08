@@ -1,0 +1,46 @@
+<div class="login-bg">
+  <mat-card class="login-card">
+    <mat-card-content>
+
+      <div class="login-header">
+        <img src="assets/images/logo.png" alt="JardinConecta" class="logo">
+        <span class="panel-label">Panel de administración</span>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" autocomplete="email">
+          @if (form.get('email')?.hasError('required')) {
+            <mat-error>Email requerido</mat-error>
+          }
+          @if (form.get('email')?.hasError('email')) {
+            <mat-error>Email inválido</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Contraseña</mat-label>
+          <input matInput type="password" formControlName="password" autocomplete="current-password">
+          @if (form.get('password')?.hasError('required')) {
+            <mat-error>Contraseña requerida</mat-error>
+          }
+        </mat-form-field>
+
+        @if (errorMessage) {
+          <div class="error-message">{{ errorMessage }}</div>
+        }
+
+        <button mat-raised-button color="primary" type="submit"
+                [disabled]="form.invalid || loading" class="full-width submit-btn">
+          @if (loading) {
+            <mat-spinner diameter="20"></mat-spinner>
+          } @else {
+            Iniciar sesión
+          }
+        </button>
+      </form>
+
+    </mat-card-content>
+  </mat-card>
+</div>
