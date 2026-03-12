@@ -1,0 +1,17 @@
+.section-label {
+  font-weight: 500;
+  margin: 12px 0 4px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.empty-msg {
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 14px;
+  padding: 4px 16px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 24px 0;
+}

@@ -11,6 +11,9 @@ import { SalasService, Sala } from '../../../core/services/salas.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { SalaFormDialogComponent } from './sala-form-dialog/sala-form-dialog.component';
 import { MiembrosDialogComponent } from './miembros-dialog/miembros-dialog.component';
+import { CodigoInvitacionDialogComponent } from '../alumnos/codigo-invitacion-dialog/codigo-invitacion-dialog.component';
+import { InfantesSalaDialogComponent } from './infantes-sala-dialog/infantes-sala-dialog.component';
+import { AgregarEducadorDialogComponent } from './agregar-educador-dialog/agregar-educador-dialog.component';
 
 @Component({
   selector: 'app-salas',
@@ -56,5 +59,20 @@ export class SalasComponent implements OnInit {
 
   verMiembros(sala: Sala): void {
     this.dialog.open(MiembrosDialogComponent, { data: { sala }, width: '500px' });
+  }
+
+  verAlumnos(sala: Sala): void {
+    this.dialog.open(InfantesSalaDialogComponent, { data: { sala }, width: '500px' });
+  }
+
+  openCodigo(sala: Sala): void {
+    this.dialog.open(CodigoInvitacionDialogComponent, { data: { sala } });
+  }
+
+  openAgregarEducador(sala: Sala): void {
+    const ref = this.dialog.open(AgregarEducadorDialogComponent, { data: { sala }, width: '400px' });
+    ref.afterClosed().subscribe(result => {
+      if (result) this.snackBar.open('Educador agregado y notificado por email', 'OK', { duration: 3000 });
+    });
   }
 }

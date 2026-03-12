@@ -28,24 +28,14 @@
       <mat-cell *matCellDef="let i">{{ i.documento || '—' }}</mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="salas">
-      <mat-header-cell *matHeaderCellDef>Salas</mat-header-cell>
-      <mat-cell *matCellDef="let i">
-        {{ getSalasNombres(i) }}
-      </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="acciones">
+<ng-container matColumnDef="acciones">
       <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
       <mat-cell *matCellDef="let i">
+        <button mat-icon-button (click)="openTutelas(i)" matTooltip="Ver tutelas">
+          <mat-icon>family_restroom</mat-icon>
+        </button>
         <button mat-icon-button color="primary" (click)="openEdit(i)" matTooltip="Editar">
           <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button color="primary" (click)="openSalas(i)" matTooltip="Gestionar salas">
-          <mat-icon>meeting_room</mat-icon>
-        </button>
-        <button mat-icon-button color="accent" (click)="openCodigo(i)" matTooltip="Código de invitación">
-          <mat-icon>vpn_key</mat-icon>
         </button>
         <button mat-icon-button color="warn" (click)="confirmDelete(i)" matTooltip="Eliminar">
           <mat-icon>delete</mat-icon>

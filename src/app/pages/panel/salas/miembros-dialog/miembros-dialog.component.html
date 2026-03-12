@@ -5,10 +5,13 @@
   }
   @if (!loading) {
     <mat-list>
-      @for (m of miembros; track m.id) {
+      @for (m of miembros; track m.idUsuario) {
         <mat-list-item>
           <span matListItemTitle>{{ m.nombre }} {{ m.apellido }}</span>
           <span matListItemLine>{{ m.email }} — {{ m.rol }}</span>
+          @for (t of m.tutelas; track t.idInfante) {
+            <span matListItemLine>{{ t.tipoTutela }} de {{ t.nombreInfante }} {{ t.apellidoInfante }}</span>
+          }
           <button mat-icon-button color="warn" matListItemMeta (click)="remover(m)" matTooltip="Remover">
             <mat-icon>person_remove</mat-icon>
           </button>

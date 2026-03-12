@@ -12,6 +12,17 @@ export interface Infante {
   salas?: { idSala: string; nombre: string }[];
 }
 
+export interface InfanteDetalleTutela {
+  idUsuario: string;
+  nombreUsuario: string;
+  apellidoUsuario: string;
+  tipoTutela: string;
+}
+
+export interface InfanteDetalle extends Infante {
+  tutelas: InfanteDetalleTutela[];
+}
+
 export interface CreateInfanteDto {
   nombre: string;
   apellido: string;
@@ -24,9 +35,14 @@ export class InfantesService {
   private http = inject(HttpClient);
   private base = `${environment.apiUrl}/Infantes`;
 
-  getAll(idJardin?: string): Observable<Infante[]> {
+  getById(infanteId: string): Observable<InfanteDetalle> {
+    return this.http.get<InfanteDetalle>(`${this.base}/${infanteId}`);
+  }
+
+  getAll(idJardin?: string, idSala?: string): Observable<Infante[]> {
     const params: Record<string, string> = {};
     if (idJardin) params['idJardin'] = idJardin;
+    if (idSala) params['idSala'] = idSala;
     return this.http.get<Infante[]>(this.base, { params });
   }
 
@@ -48,5 +64,9 @@ export class InfantesService {
 
   desasignarSala(infanteId: string, salaId: string): Observable<void> {
     return this.http.delete<void>(`${this.base}/${infanteId}/Salas/${salaId}`);
+  }
+
+  deleteTutela(infanteId: string, usuarioId: string): Observable<void> {
+    return this.http.delete<void>(`${this.base}/${infanteId}/Tutelas/${usuarioId}`);
   }
 }

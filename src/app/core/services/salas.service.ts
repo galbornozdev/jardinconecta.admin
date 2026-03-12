@@ -8,12 +8,20 @@ export interface Sala {
   nombre: string;
 }
 
+export interface TutelaInfo {
+  idInfante: string;
+  nombreInfante: string;
+  apellidoInfante: string;
+  tipoTutela: string;
+}
+
 export interface Miembro {
-  id: string;
+  idUsuario: string;
   nombre: string;
   apellido: string;
   email: string;
   rol: string;
+  tutelas: TutelaInfo[];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -37,5 +45,9 @@ export class SalasService {
 
   removeMiembro(salaId: string, usuarioId: string): Observable<void> {
     return this.http.delete<void>(`${this.base}/${salaId}/Miembros/${usuarioId}`);
+  }
+
+  agregarEducador(salaId: string, email: string): Observable<void> {
+    return this.http.post<void>(`${this.base}/${salaId}/Educadores`, { email });
   }
 }

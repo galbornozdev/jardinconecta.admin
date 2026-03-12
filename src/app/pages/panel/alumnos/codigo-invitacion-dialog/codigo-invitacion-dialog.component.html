@@ -3,13 +3,16 @@
   @if (!codigoGenerado) {
     <form [formGroup]="form" class="dialog-form">
       <mat-form-field appearance="outline">
-        <mat-label>Sala</mat-label>
-        <mat-select formControlName="salaId">
-          @for (sala of data.salas; track sala.id) {
-            <mat-option [value]="sala.id">{{ sala.nombre }}</mat-option>
+        <mat-label>Alumno</mat-label>
+        <mat-select formControlName="infanteId">
+          @if (loadingInfantes) {
+            <mat-option disabled>Cargando...</mat-option>
+          }
+          @for (infante of infantes; track infante.id) {
+            <mat-option [value]="infante.id">{{ infante.nombre }} {{ infante.apellido }}</mat-option>
           }
         </mat-select>
-        @if (form.get('salaId')?.hasError('required')) {
+        @if (form.get('infanteId')?.hasError('required')) {
           <mat-error>Requerido</mat-error>
         }
       </mat-form-field>

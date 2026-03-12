@@ -11,8 +11,7 @@ import { InfantesService, Infante } from '../../../core/services/infantes.servic
 import { SalasService, Sala } from '../../../core/services/salas.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { AlumnoFormDialogComponent } from './alumno-form-dialog/alumno-form-dialog.component';
-import { CodigoInvitacionDialogComponent } from './codigo-invitacion-dialog/codigo-invitacion-dialog.component';
-import { SalasInfanteDialogComponent } from './salas-infante-dialog/salas-infante-dialog.component';
+import { TutelasDialogComponent } from './tutelas-dialog/tutelas-dialog.component';
 
 @Component({
   selector: 'app-alumnos',
@@ -40,14 +39,10 @@ export class AlumnosComponent implements OnInit {
   infantes: Infante[] = [];
   salas: Sala[] = [];
   loading = true;
-  columns = ['nombre', 'apellido', 'documento', 'salas', 'acciones'];
+  columns = ['nombre', 'apellido', 'documento', 'acciones'];
 
   ngOnInit(): void {
     this.loadData();
-  }
-
-  getSalasNombres(infante: Infante): string {
-    return infante.salas?.map(s => s.nombre).join(', ') || '—';
   }
 
   loadData(): void {
@@ -80,19 +75,8 @@ export class AlumnosComponent implements OnInit {
     });
   }
 
-  openSalas(infante: Infante): void {
-    const ref = this.dialog.open(SalasInfanteDialogComponent, {
-      data: { infante, salas: this.salas }
-    });
-    ref.afterClosed().subscribe(() => this.loadData());
-  }
-
-  openCodigo(infante: Infante): void {
-    const idsAsignados = new Set((infante.salas ?? []).map(s => s.idSala));
-    const salasDelInfante = this.salas.filter(s => idsAsignados.has(s.id));
-    this.dialog.open(CodigoInvitacionDialogComponent, {
-      data: { infante, salas: salasDelInfante }
-    });
+  openTutelas(infante: Infante): void {
+    this.dialog.open(TutelasDialogComponent, { data: { infante } });
   }
 
   confirmDelete(infante: Infante): void {

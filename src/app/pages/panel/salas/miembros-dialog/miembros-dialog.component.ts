@@ -6,7 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { SalasService, Sala, Miembro } from '../../../../core/services/salas.service';
+import { SalasService, Sala, Miembro, TutelaInfo } from '../../../../core/services/salas.service';
 
 @Component({
   selector: 'app-miembros-dialog',
@@ -34,8 +34,8 @@ export class MiembrosDialogComponent implements OnInit {
 
   remover(miembro: Miembro): void {
     if (!confirm(`¿Remover a ${miembro.nombre} ${miembro.apellido}?`)) return;
-    this.salasService.removeMiembro(this.data.sala.id, miembro.id).subscribe({
-      next: () => { this.miembros = this.miembros.filter(m => m.id !== miembro.id); }
+    this.salasService.removeMiembro(this.data.sala.id, miembro.idUsuario).subscribe({
+      next: () => { this.miembros = this.miembros.filter(m => m.idUsuario !== miembro.idUsuario); }
     });
   }
 }

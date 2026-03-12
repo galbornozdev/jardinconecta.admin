@@ -1,4 +1,4 @@
-import { Component, inject, Inject } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -11,7 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { AdminService } from '../../../../core/services/admin.service';
-import { Infante } from '../../../../core/services/infantes.service';
+import { InfantesService, Infante } from '../../../../core/services/infantes.service';
 import { Sala } from '../../../../core/services/salas.service';
 
 @Component({
@@ -33,29 +33,39 @@ import { Sala } from '../../../../core/services/salas.service';
   templateUrl: './codigo-invitacion-dialog.component.html',
   styleUrl: './codigo-invitacion-dialog.component.scss'
 })
-export class CodigoInvitacionDialogComponent {
+export class CodigoInvitacionDialogComponent implements OnInit {
   private fb = inject(FormBuilder);
   private adminService = inject(AdminService);
+  private infantesService = inject(InfantesService);
 
   form = this.fb.group({
-    salaId: [null as string | null, Validators.required],
+    infanteId: [null as string | null, Validators.required],
     fechaExpiracion: ['', Validators.required]
   });
 
+  infantes: Infante[] = [];
   loading = false;
+  loadingInfantes = true;
   codigoGenerado = '';
   copiado = false;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { infante: Infante; salas: Sala[] }) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { sala: Sala }) {}
+
+  ngOnInit(): void {
+    this.infantesService.getAll(undefined, this.data.sala.id).subscribe({
+      next: (infantes) => { this.infantes = infantes; this.loadingInfantes = false; },
+      error: () => { this.loadingInfantes = false; }
+    });
+  }
 
   generar(): void {
     if (this.form.invalid) return;
     this.loading = true;
-    const { salaId, fechaExpiracion } = this.form.value;
+    const { infanteId, fechaExpiracion } = this.form.value;
 
     this.adminService.generarInvitacion({
-      idInfante: this.data.infante.id,
-      idSala: salaId!,
+      idInfante: infanteId!,
+      idSala: this.data.sala.id,
       fechaExpiracion: new Date(fechaExpiracion!).toISOString()
     }).subscribe({
       next: (inv) => {

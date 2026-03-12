@@ -19,8 +19,17 @@
     <ng-container matColumnDef="acciones">
       <mat-header-cell *matHeaderCellDef>Acciones</mat-header-cell>
       <mat-cell *matCellDef="let s">
+        <button mat-icon-button color="primary" (click)="verAlumnos(s)" matTooltip="Ver alumnos">
+          <mat-icon>child_care</mat-icon>
+        </button>
         <button mat-icon-button color="primary" (click)="verMiembros(s)" matTooltip="Ver miembros">
           <mat-icon>group</mat-icon>
+        </button>
+        <button mat-icon-button color="accent" (click)="openAgregarEducador(s)" matTooltip="Agregar educador">
+          <mat-icon>person_add</mat-icon>
+        </button>
+        <button mat-icon-button color="accent" (click)="openCodigo(s)" matTooltip="Código de invitación">
+          <mat-icon>vpn_key</mat-icon>
         </button>
       </mat-cell>
     </ng-container>

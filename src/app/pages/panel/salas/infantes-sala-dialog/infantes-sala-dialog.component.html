@@ -1,0 +1,61 @@
+<h2 mat-dialog-title>Alumnos — {{ data.sala.nombre }}</h2>
+
+<mat-dialog-content>
+
+  @if (loading) {
+    <div class="loading-container"><mat-spinner diameter="32"></mat-spinner></div>
+  }
+
+  @if (!loading) {
+    <p class="section-label">Asignados</p>
+    <mat-list>
+      @for (infante of asignados; track infante.id) {
+        <mat-list-item>
+          <span matListItemTitle>{{ infante.nombre }} {{ infante.apellido }}</span>
+          <button mat-icon-button color="warn" matListItemMeta
+                  (click)="desasignar(infante)"
+                  [disabled]="loadingId === infante.id"
+                  matTooltip="Quitar de sala">
+            @if (loadingId === infante.id) {
+              <mat-spinner diameter="18"></mat-spinner>
+            } @else {
+              <mat-icon>remove_circle_outline</mat-icon>
+            }
+          </button>
+        </mat-list-item>
+      }
+      @if (asignados.length === 0) {
+        <p class="empty-msg">Sin alumnos asignados</p>
+      }
+    </mat-list>
+
+    <mat-divider></mat-divider>
+
+    <p class="section-label">Disponibles</p>
+    <mat-list>
+      @for (infante of disponibles; track infante.id) {
+        <mat-list-item>
+          <span matListItemTitle>{{ infante.nombre }} {{ infante.apellido }}</span>
+          <button mat-icon-button color="primary" matListItemMeta
+                  (click)="asignar(infante)"
+                  [disabled]="loadingId === infante.id"
+                  matTooltip="Agregar a sala">
+            @if (loadingId === infante.id) {
+              <mat-spinner diameter="18"></mat-spinner>
+            } @else {
+              <mat-icon>add_circle_outline</mat-icon>
+            }
+          </button>
+        </mat-list-item>
+      }
+      @if (disponibles.length === 0) {
+        <p class="empty-msg">Todos los alumnos están en esta sala</p>
+      }
+    </mat-list>
+  }
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cerrar</button>
+</mat-dialog-actions>
