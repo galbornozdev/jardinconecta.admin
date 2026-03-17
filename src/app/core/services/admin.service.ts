@@ -30,5 +30,5 @@ export class AdminService {
     return this.http.get<Invitacion[]>(`${this.base}/Invitaciones`, { params: { idSala } });
   }
 
-  // test
+  // test 2
 }
