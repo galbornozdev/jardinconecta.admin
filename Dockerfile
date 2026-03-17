@@ -11,7 +11,7 @@ RUN npm run build --configuration=production
 # 2️⃣ Serve with nginx
 FROM nginx:alpine
 
-COPY --from=build /app/dist/<your-project-name> /usr/share/nginx/html
+COPY --from=build /app/dist/jardinconecta-admin/browser /usr/share/nginx/html
 
 # optional: custom nginx config
 # COPY nginx.conf /etc/nginx/conf.d/default.conf
