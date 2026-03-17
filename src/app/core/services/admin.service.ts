@@ -29,4 +29,6 @@ export class AdminService {
   listarInvitaciones(idSala: number): Observable<Invitacion[]> {
     return this.http.get<Invitacion[]>(`${this.base}/Invitaciones`, { params: { idSala } });
   }
+
+  // test
 }
