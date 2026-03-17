@@ -1,0 +1,19 @@
+# 1️⃣ Build stage
+FROM node:20-alpine AS build
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+RUN npm run build --configuration=production
+
+# 2️⃣ Serve with nginx
+FROM nginx:alpine
+
+COPY --from=build /app/dist/<your-project-name> /usr/share/nginx/html
+
+# optional: custom nginx config
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80

@@ -1,0 +1,16 @@
+services:
+  admin:
+    image: ghcr.io/galbornozdev/jardinconecta-admin:latest
+    container_name: jardinconecta-admin
+    environment:
+      VIRTUAL_HOST: admin-uat.jardinconecta.com
+      LETSENCRYPT_HOST: admin-uat.jardinconecta.com
+      LETSENCRYPT_EMAIL: your@email.com
+      VIRTUAL_PORT: 80
+    networks:
+      - proxy
+    restart: always
+
+networks:
+  proxy:
+    external: true
