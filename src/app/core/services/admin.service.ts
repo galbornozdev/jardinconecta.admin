@@ -4,9 +4,10 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface InvitacionDto {
-  idInfante: string;
+  idInfante?: string;
   idSala: string;
   fechaExpiracion: string;
+  tipoInvitacion: number;
 }
 
 export interface Invitacion {

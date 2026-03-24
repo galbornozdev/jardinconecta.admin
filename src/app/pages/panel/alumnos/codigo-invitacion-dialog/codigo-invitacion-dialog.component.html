@@ -3,19 +3,29 @@
   @if (!codigoGenerado) {
     <form [formGroup]="form" class="dialog-form">
       <mat-form-field appearance="outline">
-        <mat-label>Alumno</mat-label>
-        <mat-select formControlName="infanteId">
-          @if (loadingInfantes) {
-            <mat-option disabled>Cargando...</mat-option>
-          }
-          @for (infante of infantes; track infante.id) {
-            <mat-option [value]="infante.id">{{ infante.nombre }} {{ infante.apellido }}</mat-option>
-          }
+        <mat-label>Tipo de invitación</mat-label>
+        <mat-select formControlName="tipoInvitacion">
+          <mat-option [value]="1">Familia</mat-option>
+          <mat-option [value]="2">Educador</mat-option>
         </mat-select>
-        @if (form.get('infanteId')?.hasError('required')) {
-          <mat-error>Requerido</mat-error>
-        }
       </mat-form-field>
+
+      @if (esFamilia) {
+        <mat-form-field appearance="outline">
+          <mat-label>Alumno</mat-label>
+          <mat-select formControlName="infanteId">
+            @if (loadingInfantes) {
+              <mat-option disabled>Cargando...</mat-option>
+            }
+            @for (infante of infantes; track infante.id) {
+              <mat-option [value]="infante.id">{{ infante.nombre }} {{ infante.apellido }}</mat-option>
+            }
+          </mat-select>
+          @if (form.get('infanteId')?.hasError('required')) {
+            <mat-error>Requerido</mat-error>
+          }
+        </mat-form-field>
+      }
 
       <mat-form-field appearance="outline">
         <mat-label>Fecha de expiración</mat-label>

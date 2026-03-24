@@ -39,6 +39,7 @@ export class CodigoInvitacionDialogComponent implements OnInit {
   private infantesService = inject(InfantesService);
 
   form = this.fb.group({
+    tipoInvitacion: [1, Validators.required],
     infanteId: [null as string | null, Validators.required],
     fechaExpiracion: ['', Validators.required]
   });
@@ -56,17 +57,33 @@ export class CodigoInvitacionDialogComponent implements OnInit {
       next: (infantes) => { this.infantes = infantes; this.loadingInfantes = false; },
       error: () => { this.loadingInfantes = false; }
     });
+
+    this.form.get('tipoInvitacion')!.valueChanges.subscribe(tipo => {
+      const infanteControl = this.form.get('infanteId')!;
+      if (tipo === 1) {
+        infanteControl.setValidators(Validators.required);
+      } else {
+        infanteControl.clearValidators();
+        infanteControl.setValue(null);
+      }
+      infanteControl.updateValueAndValidity();
+    });
+  }
+
+  get esFamilia(): boolean {
+    return this.form.get('tipoInvitacion')!.value === 1;
   }
 
   generar(): void {
     if (this.form.invalid) return;
     this.loading = true;
-    const { infanteId, fechaExpiracion } = this.form.value;
+    const { infanteId, fechaExpiracion, tipoInvitacion } = this.form.value;
 
     this.adminService.generarInvitacion({
-      idInfante: infanteId!,
+      idInfante: infanteId ?? undefined,
       idSala: this.data.sala.id,
-      fechaExpiracion: new Date(fechaExpiracion!).toISOString()
+      fechaExpiracion: new Date(fechaExpiracion!).toISOString(),
+      tipoInvitacion: tipoInvitacion!
     }).subscribe({
       next: (inv) => {
         this.codigoGenerado = inv.codigo;
