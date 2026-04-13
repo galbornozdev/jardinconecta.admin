@@ -1,0 +1,70 @@
+<h2 mat-dialog-title>Importar alumnos</h2>
+
+<mat-dialog-content>
+  <div class="importar-container">
+
+    <div class="plantilla-section">
+      <p>Descargá la plantilla con el formato correcto antes de importar.</p>
+      <button mat-stroked-button type="button" (click)="descargarPlantilla()">
+        <mat-icon>download</mat-icon>
+        Descargar plantilla CSV
+      </button>
+    </div>
+
+    <div class="archivo-section">
+      <input
+        type="file"
+        accept=".csv"
+        (change)="onArchivoSeleccionado($event)"
+        style="display:none"
+        #fileInput>
+      <button mat-stroked-button type="button" (click)="fileInput.click()">
+        <mat-icon>upload_file</mat-icon>
+        Seleccionar archivo CSV
+      </button>
+      @if (archivoSeleccionado) {
+        <span class="archivo-nombre">{{ archivoSeleccionado.name }}</span>
+      }
+    </div>
+
+    @if (loading) {
+      <div class="spinner-container">
+        <mat-spinner diameter="32"></mat-spinner>
+        <span>Importando...</span>
+      </div>
+    }
+
+    @if (resultado) {
+      <div class="resultado-exito">
+        <mat-icon>check_circle</mat-icon>
+        <span>
+          Importación exitosa: <strong>{{ resultado.insertados }}</strong> insertados,
+          <strong>{{ resultado.actualizados }}</strong> actualizados.
+        </span>
+      </div>
+    }
+
+    @if (errorMensaje) {
+      <div class="resultado-error">
+        <mat-icon>error</mat-icon>
+        <span>{{ errorMensaje }}</span>
+      </div>
+    }
+
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  @if (resultado) {
+    <button mat-raised-button color="primary" (click)="cerrarConExito()">Cerrar</button>
+  } @else {
+    <button mat-button mat-dialog-close [disabled]="loading">Cancelar</button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="importar()"
+      [disabled]="!archivoSeleccionado || loading">
+      Importar
+    </button>
+  }
+</mat-dialog-actions>

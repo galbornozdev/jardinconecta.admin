@@ -11,6 +11,7 @@ import { InfantesService, Infante } from '../../../core/services/infantes.servic
 import { SalasService, Sala } from '../../../core/services/salas.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { AlumnoFormDialogComponent } from './alumno-form-dialog/alumno-form-dialog.component';
+import { ImportarAlumnosDialogComponent } from './importar-alumnos-dialog/importar-alumnos-dialog.component';
 import { TutelasDialogComponent } from './tutelas-dialog/tutelas-dialog.component';
 
 @Component({
@@ -54,6 +55,16 @@ export class AlumnosComponent implements OnInit {
         next: (infantes) => { this.infantes = infantes; this.loading = false; },
         error: () => { this.loading = false; }
       });
+    });
+  }
+
+  openImportar(): void {
+    const ref = this.dialog.open(ImportarAlumnosDialogComponent, { disableClose: true });
+    ref.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadData();
+        this.snackBar.open('Importación completada', 'OK', { duration: 3000 });
+      }
     });
   }
 

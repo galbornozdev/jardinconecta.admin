@@ -30,6 +30,11 @@ export interface CreateInfanteDto {
   documento: string;
 }
 
+export interface ImportarResult {
+  insertados: number;
+  actualizados: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class InfantesService {
   private http = inject(HttpClient);
@@ -68,5 +73,11 @@ export class InfantesService {
 
   deleteTutela(infanteId: string, usuarioId: string): Observable<void> {
     return this.http.delete<void>(`${this.base}/${infanteId}/Tutelas/${usuarioId}`);
+  }
+
+  importar(archivo: File): Observable<ImportarResult> {
+    const formData = new FormData();
+    formData.append('archivo', archivo, archivo.name);
+    return this.http.post<ImportarResult>(`${this.base}/Importar`, formData);
   }
 }

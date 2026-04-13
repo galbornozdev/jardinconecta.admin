@@ -1,0 +1,71 @@
+.importar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 400px;
+  padding: 8px 0;
+}
+
+.plantilla-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  p {
+    margin: 0;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 14px;
+  }
+}
+
+.archivo-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.archivo-nombre {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+}
+
+.spinner-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.resultado-exito {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: #e8f5e9;
+  border-radius: 4px;
+  font-size: 14px;
+
+  mat-icon {
+    color: #388e3c;
+  }
+}
+
+.resultado-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px;
+  background: #fce4ec;
+  border-radius: 4px;
+  font-size: 14px;
+  word-break: break-word;
+
+  mat-icon {
+    color: #c62828;
+    flex-shrink: 0;
+  }
+}
