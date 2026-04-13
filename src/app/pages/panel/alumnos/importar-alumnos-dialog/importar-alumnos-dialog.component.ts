@@ -26,19 +26,17 @@ export class ImportarAlumnosDialogComponent {
   loading = false;
   archivoSeleccionado: File | null = null;
   resultado: ImportarResult | null = null;
-  errorMensaje: string | null = null;
 
   onArchivoSeleccionado(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files?.length) {
       this.archivoSeleccionado = input.files[0];
       this.resultado = null;
-      this.errorMensaje = null;
     }
   }
 
   descargarPlantilla(): void {
-    const contenido = 'nombre;apellido;documento;fechaNacimiento;sala\nJuan;Pérez;12345678;2020-03-15;Sala Azul';
+    const contenido = 'nombre;apellido;documento;fechaNacimiento;sala\nJuan;Pérez;12345678;3/5/2020;Sala Azul';
     const bom = '\uFEFF';
     const blob = new Blob([bom + contenido], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -53,15 +51,13 @@ export class ImportarAlumnosDialogComponent {
     if (!this.archivoSeleccionado || this.loading) return;
     this.loading = true;
     this.resultado = null;
-    this.errorMensaje = null;
 
     this.infantesService.importar(this.archivoSeleccionado).subscribe({
       next: (res) => {
         this.resultado = res;
         this.loading = false;
       },
-      error: (err) => {
-        this.errorMensaje = err?.error?.detail ?? 'Error al importar el archivo.';
+      error: () => {
         this.loading = false;
       }
     });

@@ -19,6 +19,18 @@ $admin-theme: mat.define-light-theme((
 @include mat.all-component-themes($admin-theme);
 
 html, body { height: 100%; }
+
+.snackbar-error {
+  --mdc-snackbar-container-color: #c62828;
+  --mdc-snackbar-supporting-text-color: #fff;
+  --mat-snack-bar-button-color: #fff;
+}
+
+.snackbar-success {
+  --mdc-snackbar-container-color: #2e7d32;
+  --mdc-snackbar-supporting-text-color: #fff;
+  --mat-snack-bar-button-color: #fff;
+}
 body {
   margin: 0;
   font-family: 'Poppins', 'Helvetica Neue', sans-serif;

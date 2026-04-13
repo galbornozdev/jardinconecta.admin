@@ -4,7 +4,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
-import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SalasService, Sala } from '../../../core/services/salas.service';
@@ -14,6 +14,7 @@ import { MiembrosDialogComponent } from './miembros-dialog/miembros-dialog.compo
 import { CodigoInvitacionDialogComponent } from '../alumnos/codigo-invitacion-dialog/codigo-invitacion-dialog.component';
 import { InfantesSalaDialogComponent } from './infantes-sala-dialog/infantes-sala-dialog.component';
 import { AgregarEducadorDialogComponent } from './agregar-educador-dialog/agregar-educador-dialog.component';
+import { NotificationService } from '../../../core/services/notification.service';
 
 @Component({
   selector: 'app-salas',
@@ -31,7 +32,7 @@ export class SalasComponent implements OnInit {
   private salasService = inject(SalasService);
   private auth = inject(AuthService);
   private dialog = inject(MatDialog);
-  private snackBar = inject(MatSnackBar);
+  private notification = inject(NotificationService);
 
   salas: Sala[] = [];
   loading = true;
@@ -53,7 +54,7 @@ export class SalasComponent implements OnInit {
   openCreate(): void {
     const ref = this.dialog.open(SalaFormDialogComponent, { data: {} });
     ref.afterClosed().subscribe(result => {
-      if (result) { this.load(); this.snackBar.open('Sala creada', 'OK', { duration: 3000 }); }
+      if (result) { this.load(); this.notification.success('Sala creada'); }
     });
   }
 
@@ -72,7 +73,7 @@ export class SalasComponent implements OnInit {
   openAgregarEducador(sala: Sala): void {
     const ref = this.dialog.open(AgregarEducadorDialogComponent, { data: { sala }, width: '400px' });
     ref.afterClosed().subscribe(result => {
-      if (result) this.snackBar.open('Educador agregado y notificado por email', 'OK', { duration: 3000 });
+      if (result) this.notification.success('Educador agregado y notificado por email');
     });
   }
 }

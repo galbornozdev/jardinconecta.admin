@@ -4,12 +4,13 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
-import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { InfantesService, Infante } from '../../../core/services/infantes.service';
 import { SalasService, Sala } from '../../../core/services/salas.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { NotificationService } from '../../../core/services/notification.service';
 import { AlumnoFormDialogComponent } from './alumno-form-dialog/alumno-form-dialog.component';
 import { ImportarAlumnosDialogComponent } from './importar-alumnos-dialog/importar-alumnos-dialog.component';
 import { TutelasDialogComponent } from './tutelas-dialog/tutelas-dialog.component';
@@ -35,7 +36,7 @@ export class AlumnosComponent implements OnInit {
   private salasService = inject(SalasService);
   private auth = inject(AuthService);
   private dialog = inject(MatDialog);
-  private snackBar = inject(MatSnackBar);
+  private notification = inject(NotificationService);
 
   infantes: Infante[] = [];
   salas: Sala[] = [];
@@ -63,7 +64,7 @@ export class AlumnosComponent implements OnInit {
     ref.afterClosed().subscribe(result => {
       if (result) {
         this.loadData();
-        this.snackBar.open('Importación completada', 'OK', { duration: 3000 });
+        this.notification.success('Importación completada');
       }
     });
   }
@@ -73,7 +74,7 @@ export class AlumnosComponent implements OnInit {
       data: { salas: this.salas }
     });
     ref.afterClosed().subscribe(result => {
-      if (result) { this.loadData(); this.snackBar.open('Alumno creado', 'OK', { duration: 3000 }); }
+      if (result) { this.loadData(); this.notification.success('Alumno creado'); }
     });
   }
 
@@ -82,7 +83,7 @@ export class AlumnosComponent implements OnInit {
       data: { infante, salas: this.salas }
     });
     ref.afterClosed().subscribe(result => {
-      if (result) { this.loadData(); this.snackBar.open('Alumno actualizado', 'OK', { duration: 3000 }); }
+      if (result) { this.loadData(); this.notification.success('Alumno actualizado'); }
     });
   }
 
@@ -93,8 +94,8 @@ export class AlumnosComponent implements OnInit {
   confirmDelete(infante: Infante): void {
     if (!confirm(`¿Eliminar a ${infante.nombre} ${infante.apellido}?`)) return;
     this.infantesService.delete(infante.id).subscribe({
-      next: () => { this.loadData(); this.snackBar.open('Alumno eliminado', 'OK', { duration: 3000 }); },
-      error: () => this.snackBar.open('Error al eliminar', 'OK', { duration: 3000 })
+      next: () => { this.loadData(); this.notification.success('Alumno eliminado'); },
+      error: () => {}
     });
   }
 }
