@@ -12,16 +12,31 @@
 
       @if (esFamilia) {
         <mat-form-field appearance="outline">
-          <mat-label>Alumno</mat-label>
-          <mat-select formControlName="infanteId">
+          <mat-label>Alumno/s</mat-label>
+          <mat-chip-grid #chipGrid>
+            @for (infante of infantesSeleccionados; track infante.id) {
+              <mat-chip-row (removed)="removerInfante(infante)">
+                {{ infante.apellido }}, {{ infante.nombre }}
+                <button matChipRemove><mat-icon>cancel</mat-icon></button>
+              </mat-chip-row>
+            }
+          </mat-chip-grid>
+          <input
+            #infanteInput
+            placeholder="Buscar alumno..."
+            [formControl]="infanteBusqueda"
+            [matChipInputFor]="chipGrid"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="seleccionarInfante($event)">
             @if (loadingInfantes) {
               <mat-option disabled>Cargando...</mat-option>
             }
-            @for (infante of infantes; track infante.id) {
-              <mat-option [value]="infante.id">{{ infante.nombre }} {{ infante.apellido }}</mat-option>
+            @for (infante of infantesFiltrados; track infante.id) {
+              <mat-option [value]="infante">{{ infante.apellido }}, {{ infante.nombre }}</mat-option>
             }
-          </mat-select>
-          @if (form.get('infanteId')?.hasError('required')) {
+          </mat-autocomplete>
+          @if (form.get('infanteIds')?.hasError('required') && form.get('infanteIds')?.touched) {
             <mat-error>Requerido</mat-error>
           }
         </mat-form-field>

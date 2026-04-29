@@ -1,5 +1,5 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav mode="side" opened class="sidenav">
+  <mat-sidenav mode="side" [opened]="sidenavOpen" class="sidenav">
     <mat-toolbar color="primary">JardinConecta</mat-toolbar>
     <mat-nav-list>
       <a mat-list-item routerLink="/panel/alumnos" routerLinkActive="active-link">
@@ -10,11 +10,18 @@
         <mat-icon matListItemIcon>class</mat-icon>
         <span matListItemTitle>Salas</span>
       </a>
+      <a mat-list-item routerLink="/panel/comunicados" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>campaign</mat-icon>
+        <span matListItemTitle>Comunicados</span>
+      </a>
     </mat-nav-list>
   </mat-sidenav>
 
   <mat-sidenav-content>
     <mat-toolbar color="primary">
+      <button mat-icon-button (click)="toggleSidenav()" title="Menú">
+        <mat-icon>menu</mat-icon>
+      </button>
       <span class="spacer"></span>
       <span class="username">{{ userName }}</span>
       <button mat-icon-button (click)="logout()" title="Cerrar sesión">

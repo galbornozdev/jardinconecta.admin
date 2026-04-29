@@ -1,0 +1,35 @@
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.page-header h1 { margin: 0; }
+
+.filters-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 24px;
+
+  mat-form-field { width: 180px; }
+}
+
+.filter-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding-bottom: 20px;
+}
+
+.loading-container { display: flex; justify-content: center; padding: 48px; }
+
+mat-table { width: 100%; }
+mat-cell, mat-header-cell { padding: 8px; }
+
+.contenido-cell {
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.no-data { padding: 24px; text-align: center; color: rgba(0,0,0,.54); }
+
+mat-paginator { margin-top: 8px; }

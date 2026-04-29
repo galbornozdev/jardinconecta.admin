@@ -21,6 +21,11 @@ export const routes: Routes = [
         path: 'salas',
         loadComponent: () => import('./pages/panel/salas/salas.component').then(m => m.SalasComponent),
         canActivate: [authGuard]
+      },
+      {
+        path: 'comunicados',
+        loadComponent: () => import('./pages/panel/comunicados/comunicados.component').then(m => m.ComunicadosComponent),
+        canActivate: [authGuard]
       }
     ]
   },

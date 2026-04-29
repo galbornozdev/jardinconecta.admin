@@ -26,6 +26,11 @@ import { AuthService } from '../../core/services/auth.service';
 export class PanelComponent {
   private auth = inject(AuthService);
   userName = this.auth.getUserName();
+  sidenavOpen = true;
+
+  toggleSidenav(): void {
+    this.sidenavOpen = !this.sidenavOpen;
+  }
 
   logout(): void {
     this.auth.logout();

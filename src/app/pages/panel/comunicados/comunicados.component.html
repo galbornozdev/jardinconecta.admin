@@ -1,0 +1,111 @@
+<div class="page-header">
+  <h1>Comunicados</h1>
+</div>
+
+<div class="filters-row" [formGroup]="filters">
+  <mat-form-field appearance="outline">
+    <mat-label>Sala</mat-label>
+    <mat-select formControlName="idSala">
+      <mat-option [value]="null">Todas</mat-option>
+      @for (sala of salas; track sala.id) {
+        <mat-option [value]="sala.id">{{ sala.nombre }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Estado</mat-label>
+    <mat-select formControlName="estado">
+      <mat-option [value]="null">Todos</mat-option>
+      @for (e of estados; track e.value) {
+        <mat-option [value]="e.value">{{ e.label }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Desde</mat-label>
+    <input matInput [matDatepicker]="pickerDesde" formControlName="fechaDesde">
+    <mat-datepicker-toggle matIconSuffix [for]="pickerDesde"></mat-datepicker-toggle>
+    <mat-datepicker #pickerDesde></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Hasta</mat-label>
+    <input matInput [matDatepicker]="pickerHasta" formControlName="fechaHasta">
+    <mat-datepicker-toggle matIconSuffix [for]="pickerHasta"></mat-datepicker-toggle>
+    <mat-datepicker #pickerHasta></mat-datepicker>
+  </mat-form-field>
+
+  <div class="filter-actions">
+    <button mat-raised-button color="primary" (click)="onSearch()">
+      <mat-icon>search</mat-icon> Buscar
+    </button>
+    <button mat-stroked-button (click)="onClear()">
+      <mat-icon>clear</mat-icon> Limpiar
+    </button>
+  </div>
+</div>
+
+@if (loading) {
+  <div class="loading-container">
+    <mat-spinner></mat-spinner>
+  </div>
+}
+
+@if (!loading) {
+  <mat-table [dataSource]="comunicados" class="mat-elevation-z2">
+
+    <ng-container matColumnDef="titulo">
+      <mat-header-cell *matHeaderCellDef>Título</mat-header-cell>
+      <mat-cell *matCellDef="let c">{{ c.titulo }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="autor">
+      <mat-header-cell *matHeaderCellDef>Autor</mat-header-cell>
+      <mat-cell *matCellDef="let c">{{ c.autor }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="sala">
+      <mat-header-cell *matHeaderCellDef>Contenido</mat-header-cell>
+      <mat-cell *matCellDef="let c" class="contenido-cell">{{ c.contenido }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="estado">
+      <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
+      <mat-cell *matCellDef="let c">
+        <mat-chip [color]="getEstadoColor(c.estado)" highlighted>
+          {{ getEstadoLabel(c.estado) }}
+        </mat-chip>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="fechaPublicacion">
+      <mat-header-cell *matHeaderCellDef>Fecha publicación</mat-header-cell>
+      <mat-cell *matCellDef="let c">
+        {{ (c.fechaPublicacion ?? c.fechaPrograma) | date:'dd/MM/yyyy' }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="views">
+      <mat-header-cell *matHeaderCellDef>Vistas</mat-header-cell>
+      <mat-cell *matCellDef="let c">{{ c.views }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: columns;"></mat-row>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell no-data" [attr.colspan]="columns.length">No hay comunicados para los filtros seleccionados.</td>
+    </tr>
+  </mat-table>
+
+  <mat-paginator
+    [length]="totalItems"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[10, 25, 50, 100]"
+    [pageIndex]="currentPage - 1"
+    (page)="onPageChange($event)"
+    showFirstLastButtons>
+  </mat-paginator>
+}
